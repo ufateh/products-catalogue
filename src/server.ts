@@ -1,8 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { Models, productCategorySchema, productSchema } from './schemas';
-import randomstring from 'randomstring';
+import { Chance } from 'chance';
 
+const generator = new Chance();
 const app = express();
 
 
@@ -22,11 +23,8 @@ mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: 
     app.listen(process.env.PORT ? process.env.PORT : 8080, () => {
         console.log(`Express app listening at port ${process.env.PORT ? process.env.PORT : 8080}`);
 
-        let productCateogry = randomstring.generate({
-            length: 12,
-            charset: 'alphabetic'
-        });
-        seeder(productCateogry);
+        let productCateogry = generator.word();
+        //seeder(productCateogry);
 
 
         //mongoose.disconnect();
@@ -54,20 +52,14 @@ async function seeder(category: String) {
     setInterval(async () => {
         let model = mongoose.model(Models.Products);
 
-        let temp = randomstring.generate({
-            length: 5,
-            charset: 'alphabetic'
-        });
+        let temp = generator.word();
         console.log(`product ${temp} created`)
         let product = new model({
             name: temp,
-            price: 123,
-            dimentions: randomstring.generate({
-                length: 12,
-                charset: 'alphabetic'
-            }),
-            remaining: 21,
-            rating: 6.8,
+            price: generator.integer({ min: 1, max: 20000 }),
+            dimentions: generator.sentence({ words: 5 }),
+            remaining: generator.integer({ min: 0, max: 100 }),
+            rating: generator.integer({ min: 0, max: 10 }),
             category: catItem._id
         });
         await product.save();
@@ -79,15 +71,12 @@ async function seeder(category: String) {
 function init_express() {
 
     app.get('/', function (req, res) {
-        res.send('database connection disconnected')
-        mongoose.disconnect();
+        res.send('API is working')
+        //mongoose.disconnect();
     });
 
     app.get('/products', function (req, res) {
-        mongoose.model(Models.Products).find({}, function (err, products) {
-            if (err) {
-                res.send({ error: 'could not fetch data from mongodb' });
-            }
+        mongoose.model(Models.Products).find({}).populate('category').then(products=> {
             res.send(products)
         })
     });

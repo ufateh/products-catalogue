@@ -27,7 +27,7 @@ installing mongoose to take care of the document schema
 npm i mongoose
 npm i @types/mongoose -D
 
-going to install random srings to generate data,
-npm install randomstring
-npm install @types/randomstring
+going to install below to generate data,
+npm i chance
+npm install @types/chance
 -------------------------------------------------------
