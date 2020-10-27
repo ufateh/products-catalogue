@@ -53,4 +53,6 @@ npm i chance
 npm install @types/chance
 npm i body-parser
 npm i --save api-query-params
+npm install mongoose-slug-generator --save
+
 ```

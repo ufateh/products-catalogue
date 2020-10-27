@@ -1,6 +1,7 @@
 import { Schema } from "mongoose";
 import mongoose from 'mongoose';
-
+var slug = require('mongoose-slug-generator');
+mongoose.plugin(slug);
 
 export enum Models {
     Products = "Product",
@@ -18,7 +19,8 @@ export const productSchema = new Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Models.ProductCategory
-    }
+    },
+    slug: { type: String, slug: ["name","price"], unique: true }
 });
 
 // in order to perform text search on mongoDB, we need to index that information which we will be searching.

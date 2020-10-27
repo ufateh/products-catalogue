@@ -59,6 +59,16 @@ function init_express() {
             res.send(products)
         })
     });
+
+    // get products by slug
+    // slugs can be tweeked in any way possible. used for SEO
+    app.get('/products/slug/:slug', function (req, res) {
+        let name = req.params.slug;
+        mongoose.model(Models.Products).find({ slug: name }).populate('category').then(products => {
+            res.send(products)
+        })
+    });
+    
     // get products by standard mondodb find params
     app.post('/products', function (req, res) {
         mongoose.model(Models.Products).find(req.body).populate('category').then(products => {

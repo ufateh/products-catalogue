@@ -160,6 +160,26 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "slug products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/products/slug/tucuh-11087",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products",
+						"slug",
+						"tucuh-11087"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
