@@ -12,6 +12,7 @@
 
 > This is a demonstration of mongodb data retreive, a seed funciton has been added in server.ts to randomly populate data in mongo. A clould instance of mongo has been used. Sample data has already been generated.
 
+> Query param is only supported on get products call. To create a query, you can visit https://www.npmjs.com/package/api-query-params
 
 ---
 
@@ -51,4 +52,5 @@ going to install below to generate data,
 npm i chance
 npm install @types/chance
 npm i body-parser
+npm i --save api-query-params
 ```

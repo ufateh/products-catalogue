@@ -12,13 +12,19 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/products",
+					"raw": "localhost:8080/products?name=fad",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "fad"
+						}
 					]
 				}
 			},

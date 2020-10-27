@@ -3,12 +3,14 @@ import mongoose from 'mongoose';
 import { Models, productCategorySchema, productSchema } from './schemas';
 import { Chance } from 'chance';
 import * as bodyParser from 'body-parser';
+import aqp from 'api-query-params';
 
 // lib to generate random strings
 const generator = new Chance();
 
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // this function will be called after database connection is live
 function init_express() {
@@ -21,9 +23,23 @@ function init_express() {
     app.get('/products', function (req, res) {
         // the reason populate funciton is used here is due to the fact that MongoDB does not return the referenced data automatically, we have to get the reference object id and then query it again.
         // mongoose provide us the ability to use populate to fetch the referenced info.
-        mongoose.model(Models.Products).find({}).populate('category').then(products => {
-            res.send(products)
-        })
+
+        // using a library to convert query params to mongo query
+        const { filter, skip, limit, sort, projection, population } = aqp(req.query);
+        mongoose.model(Models.Products).find(filter)
+        .skip(skip)
+        .limit(limit)
+        .sort(sort)
+        .select(projection)
+        .populate(population)
+        .exec((err, users) => {
+          if (err) {
+            //return next(err);
+            res.send({error: err})
+          }
+     
+          res.send(users);
+        });
     });
 
     // below endpoint can search through product document text index and return matched products.
