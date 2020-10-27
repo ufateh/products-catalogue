@@ -17,9 +17,13 @@ export const productSchema = new Schema({
     rating: Number,
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Models.Products
+        ref: Models.ProductCategory
     }
 });
+
+// in order to perform text search on mongoDB, we need to index that information which we will be searching.
+// in our case, we are not specified any particular index, so going with indexing everything
+productSchema.index({name: 'text',dimentions: 'text' });
 
 export const productCategorySchema = new Schema({
     name: String

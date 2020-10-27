@@ -30,4 +30,5 @@ npm i @types/mongoose -D
 going to install below to generate data,
 npm i chance
 npm install @types/chance
+npm i body-parser
 -------------------------------------------------------
