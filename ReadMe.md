@@ -1,3 +1,23 @@
+# Simple Express app with retreival of documents from mongo.
+
+## How to Run:
+
+> checkout project, then perform below commands in terminal on root level folder:
+
+>`npm install`
+
+>`npm start`
+
+    Import postman collections into your postman, and execute the saved requests for test.
+
+> This is a demonstration of mongodb data retreive, a seed funciton has been added in server.ts to randomly populate data in mongo. A clould instance of mongo has been used. Sample data has already been generated.
+
+
+---
+
+    Please ignore below text
+
+```
 Going to create a sample nodeJs application, which will connect to a clould mongodb instance, and store and fetch products and product categories.
 
 Target APIs to be created:
@@ -31,4 +51,4 @@ going to install below to generate data,
 npm i chance
 npm install @types/chance
 npm i body-parser
--------------------------------------------------------
+```

@@ -22,7 +22,7 @@ export const productSchema = new Schema({
 });
 
 // in order to perform text search on mongoDB, we need to index that information which we will be searching.
-// in our case, we are not specified any particular index, so going with indexing everything
+// in our case, going to index two columns here
 productSchema.index({name: 'text',dimentions: 'text' });
 
 export const productCategorySchema = new Schema({
