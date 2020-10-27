@@ -21,4 +21,13 @@ tsconfig file settings, set up the src and output directory in tsconfig.json
 updated the scripts in package.json
 created src folder, and server.ts file in it
 tested the server.ts with a simple console output.
+
+installing mongoose to take care of the document schema
+
+npm i mongoose
+npm i @types/mongoose -D
+
+going to install random srings to generate data,
+npm install randomstring
+npm install @types/randomstring
 -------------------------------------------------------
