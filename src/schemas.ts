@@ -14,17 +14,13 @@ export const productSchema = new Schema({
     manufacture_date: { type: Date, default: Date.now },
     expiry_date: { type: Date, default: Date.now },
     remaining: Number,
-    rating: Number
+    rating: Number,
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Models.Products
+    }
 });
 
 export const productCategorySchema = new Schema({
-    name: String,
-    // one to many relationship here, using a reference in an attempt to do normalization.
-    // product can be embedded here as well, but there could be too many products under one product-category, so product-category document will be exausted early.
-    products: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Models.Products
-        }
-    ]
+    name: String
 });

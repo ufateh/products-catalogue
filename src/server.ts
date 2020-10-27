@@ -21,11 +21,11 @@ mongoose.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: 
     // express app..
     app.listen(process.env.PORT ? process.env.PORT : 8080, () => {
         console.log(`Express app listening at port ${process.env.PORT ? process.env.PORT : 8080}`);
-        
+
         let productCateogry = randomstring.generate({
             length: 12,
             charset: 'alphabetic'
-          });
+        });
         seeder(productCateogry);
 
 
@@ -44,42 +44,42 @@ mongoose.connection.on('disconnected', console.error.bind(console, 'database dis
 
 
 
-async function seeder(category:String) {
+async function seeder(category: String) {
     let pCatgModel = mongoose.model(Models.ProductCategory);
+    console.log('going to create category: ',category)
     let catItem = new pCatgModel({
-        name : category
+        name: category
     });
     await catItem.save();
     setInterval(async () => {
         let model = mongoose.model(Models.Products);
+
+        let temp = randomstring.generate({
+            length: 5,
+            charset: 'alphabetic'
+        });
+        console.log(`product ${temp} created`)
         let product = new model({
-            name: "fateh",
+            name: temp,
             price: 123,
-            dimentions: "12 by 12",
+            dimentions: randomstring.generate({
+                length: 12,
+                charset: 'alphabetic'
+            }),
             remaining: 21,
-            rating: 6.8
+            rating: 6.8,
+            category: catItem._id
         });
         await product.save();
-        
+
         console.log(product.id);
     }, 3000)
-}
-
-async function create(modelName: Models, data: any) {
-    return mongoose.model(modelName).create(data);
-}
-
-function find(modelName: Models, select: any, sort: any, limit?: any, callback?: ((err: mongoose.NativeError, res: mongoose.Document[]) => void) | undefined) {
-    let query = mongoose.model(modelName).find(select);
-    query?.limit(limit);
-    query?.sort(sort);
-    query?.exec(callback);
 }
 
 function init_express() {
 
     app.get('/', function (req, res) {
-        res.send('hello world')
+        res.send('database connection disconnected')
         mongoose.disconnect();
     });
 
@@ -92,9 +92,23 @@ function init_express() {
         })
     });
     app.get('/categories', function (req, res) {
-        mongoose.model(Models.ProductCategory).find({}).select('name').then(data=> {
+        mongoose.model(Models.ProductCategory).find({}).select('name').then(data => {
             res.send(data)
         })
+    });
+    app.get('/search/:category/products/:name', function (req, res) {
+        let category = req.params.category;
+        let name = req.params.name;
+        mongoose.model(Models.ProductCategory).findOne({ name: category }).then(data1 => {
+            mongoose.model(Models.Products).find({name : name, category : data1?._id}).select('name').then(data => {
+                res.send(data)
+            }).catch(err=>{
+                res.send({error : err})
+            })
+        }).catch(err => {
+            res.send('could not find the category');
+        })
+
     });
 
 }
